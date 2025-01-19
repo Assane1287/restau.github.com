@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assane Restau - Le meilleur du senegal</title>
+    <!-- Importation des styles CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Importation des icônes Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
+    
+    <!-- Ajoutez les produits Firebase que vous voulez utiliser -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-auth-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-firestore-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-analytics-compat.min.js"></script>
+
+    <!-- Initialisation de Firebase -->
+    <script>
+        
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCohIxeGiNMgSYTr1iMlxXdsv13WspevcM",
+            authDomain: "restaurant-6eab6.firebaseapp.com",
+            projectId: "restaurant-6eab6",
+            storageBucket: "restaurant-6eab6.firebasestorage.app",
+            messagingSenderId: "958062149741",
+            appId: "1:958062149741:web:42a82008b132a101193f64",
+            measurementId: "G-53FSBCEYES"
+        };
+
+        // Initialiser Firebase
+        firebase.initializeApp(firebaseConfig);
+        const analytics = firebase.analytics();
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+    </script>
+</head>
+<body>
+    <!-- En-tête du site -->
+    <header>
+        <!-- Logo couronne en haut de la page -->
+        <div class="crown-logo">👑</div>
+        <div class="top-bar">
+            <button class="theme-toggle">
+                <i class="fas fa-moon"></i> <!-- ou fa-sun quand en mode clair -->
+            </button>
+            <button class="dashboard-login">
+                <i class="fas fa-user"></i>
+            </button>
+        </div>
+        <div class="login-modal">
+    <div class="login-form">
+        <button class="close-btn">×</button>
+        <h2>Connexion</h2>
+        <form>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" class="login-btn">Se connecter</button>
+        </form>
+        <div class="forgot-password">
+            <a href="#">Mot de passe oublié ?</a>
+        </div>
+    </div>
+</div>
+        <!-- Contenu principal de l'en-tête -->
+        <div class="header-content">
+            <h1>Assane Restau</h1>
+            <p>Le meilleur du senegal</p>
+            <button class="menu-btn">Voir le Menu ↓</button>
+        </div>
+        
+        <!-- Barre d'informations (horaires, adresse, contact) -->
+        <div class="info-bar">
+            <!-- Horaires d'ouverture -->
+            <div class="info-item" id="hours-btn">
+                <i class="fas fa-clock"></i>
+                <div>
+                    <h3>Heures d'ouverture</h3>
+                    <p>Cliquez pour voir les horaires</p>
+                </div>
+            </div>
+
+            <!-- Adresse du restaurant -->
+            <div class="info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                    <h3>Adresse</h3>
+                    <p>Tivaouane Peulh / Diawrine</p>
+                </div>
+            </div>
+
+            <!-- Informations de contact -->
+            <div class="info-item">
+                <i class="fas fa-phone"></i>
+                <div>
+                    <h3>Contact</h3>
+                    <p>+221784513633</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenu principal -->
+    <main>
+        <!-- Boutons de filtrage des plats -->
+        <div class="filters">
+            <button class="active">Tous les plats</button>
+            <button>Jus Locaux</button>
+            <button>Pizza</button>
+            <button>Coca</button>
+            <button>Thiep</button>
+            <button>Burger</button>
+        </div>
+
+        <!-- Grille des produits du menu -->
+        <div class="menu-grid">
+            <!-- Article: Pizza -->
+            <div class="menu-item">
+                <img src="https://res.cloudinary.com/dsf3lpiow/image/upload/v1737299855/pizza_j4qz4q.jpg" alt="Pizza">
+                <div class="price">5000 FCFA</div>
+                <div class="item-info">
+                    <h3>Pizza</h3>
+                    <p>Le meilleur Pizza</p>
+                    <span>47 unités disponibles</span>
+                </div>
+            </div>
+
+            <!-- Article: Thiep -->
+            <div class="menu-item">
+                <img src="https://res.cloudinary.com/dsf3lpiow/image/upload/v1737299805/Thiep-bou-dien-ou-riz-au-poisson_c5ippw.jpg" alt="Thiep">
+                <div class="price">1500 FCFA</div>
+                <div class="item-info">
+                    <h3>Thiep</h3>
+                    <p>Le meilleur riz de dakar</p>
+                    <span>30 unités disponibles</span>
+                </div>
+            </div>
+
+            <!-- Article: Coca Cola -->
+            <div class="menu-item">
+                <img src="https://res.cloudinary.com/dsf3lpiow/image/upload/v1737299806/cola_ynojys.jpg" alt="Coca Cola">
+                <div class="price">1000 FCFA</div>
+                <div class="item-info">
+                    <h3>Coca Cola</h3>
+                    <p>Boisson rafraîchissante</p>
+                    <span>35 unités disponibles</span>
+                </div>
+            </div>
+
+            <!-- Article: Burger -->
+            <div class="menu-item">
+                <img src="https://res.cloudinary.com/dsf3lpiow/image/upload/v1737299830/burger_x5xcwp.jpg" alt="Burger">
+                <div class="price">3000 FCFA</div>
+                <div class="item-info">
+                    <h3>Burger</h3>
+                    <p>le meilleur burger</p>
+                    <div class="stock-warning">Rupture de stock</div>
+                </div>
+            </div>
+
+            <!-- Article: Jus Locaux -->
+            <div class="menu-item">
+                <img src="https://res.cloudinary.com/dsf3lpiow/image/upload/v1737299821/jus_pyb8sd.png" alt="Jus Locaux">
+                <div class="price">1500 FCFA</div>
+                <div class="item-info">
+                    <h3>Jus Locaux</h3>
+                    <p>les meilleurs goûts de nos terroirs</p>
+                    <span>39 unités disponibles</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Icône du panier flottante -->
+    <div class="cart-icon" id="cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+    </div>
+
+    <!-- Fenêtres modales -->
+    <!-- Modal des horaires -->
+    <div class="modal" id="hours-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Horaires d'ouverture</h2>
+            <div class="hours-list">
+                <p><strong>Lundi - Samedi:</strong> 8h - 00h</p>
+                <p><strong>Dimanche:</strong> 11h - 21h</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal des détails du produit -->
+    <div class="modal" id="product-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="product-details">
+                <img src="" alt="Image du produit" id="modal-product-image">
+                <h2 id="modal-product-name"></h2>
+                <p id="modal-product-stock"></p>
+                <!-- Sélecteur de quantité -->
+                <div class="quantity-selector">
+                    <button class="quantity-btn minus">-</button>
+                    <span class="quantity">1</span>
+                    <button class="quantity-btn plus">+</button>
+                </div>
+                <p class="total-price">Total: <span id="modal-total-price"></span> FCFA</p>
+                <button class="add-to-cart-btn">Ajouter au panier</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal du panier -->
+    <div class="modal" id="cart-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Votre Panier</h2>
+            <!-- Liste des articles du panier -->
+            <div class="cart-items"></div>
+            <!-- Total et bouton de commande -->
+            <div class="cart-total">
+                <p>Total: <span id="cart-total-price">0</span> FCFA</p>
+                <button class="checkout-btn">Passer la commande</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de commande -->
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content" id="modal-cont">
+            <span class="close">&times;</span>
+            <div class="checkout-options">
+                <!-- Options de commande -->
+                <div class="order-type-selector">
+                    <button class="order-type-btn active" data-type="delivery">
+                        <i class="fas fa-truck"></i>
+                        Livraison
+                    </button>
+                    <button class="order-type-btn" data-type="onsite">
+                        <i class="fas fa-utensils"></i>
+                        Sur place
+                    </button>
+                </div>
+    
+                <!-- Formulaire de livraison -->
+                <div class="order-form delivery-form active">
+                    <div class="form-group">
+                        <input type="text" placeholder="Votre nom" class="modern-input">
+                        <span class="input-info">(Optionnel)</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="tel" placeholder="Numéro de téléphone" class="modern-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" placeholder="Votre adresse complète" class="modern-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea placeholder="Indiquer nous ici vos préférences (exemple: pas de piment...), n'hésitez pas de marquer si vous avez des allergies ou autre chose..." class="modern-input"></textarea>
+                        <span class="input-info">(Optionnel)</span>
+                    </div>
+                </div>
+    
+                <!-- Formulaire sur place -->
+                <div class="order-form onsite-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Votre nom" class="modern-input">
+                        <span class="input-info">(Optionnel)</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="tel" placeholder="Numéro de téléphone" class="modern-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="number" placeholder="Numéro de table: mettez 0 si les tables ne sont pas numerotées" class="modern-input" required min="0" max="1000000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea placeholder="Indiquer nous ici vos préférences (exemple: pas de piment...), n'hésitez pas de marquer si vous avez des allergies ou autre chose..." class="modern-input"></textarea>
+                        <span class="input-info">(Optionnel)</span>
+                    </div>
+                </div>
+    
+                <!-- Actions -->
+                <div class="form-actions">
+                    <button class="back-btn">
+                        <i class="fas fa-arrow-right"></i>
+                        Retour
+                    </button>
+                    <button class="next-btn">
+                        Suivant
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de paiement -->
+    <div class="modal" id="payment-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Confirmation de commande</h2>
+            <!-- Récapitulatif de la commande -->
+            <div class="order-summary">
+                <!-- Sera rempli dynamiquement par JavaScript -->
+            </div>
+            <!-- Options de paiement -->
+            <div class="payment-section">
+                <h3>Mode de paiement</h3>
+                <div class="payment-options">
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="livraison">
+                        <div class="option-content">
+                            <div class="option-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <span>Paiement à la livraison</span>
+                            <div class="option-radio"></div>
+                        </div>
+                    </label>
+        
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="wave">
+                        <div class="option-content">
+                            <div class="option-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <span>Wave</span>
+                            <div class="option-radio"></div>
+                        </div>
+                    </label>
+        
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="orange">
+                        <div class="option-content">
+                            <div class="option-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <span>Orange Money</span>
+                            <div class="option-radio"></div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        
+            <!-- Boutons d'action -->
+            <div class="payment-actions">
+                <button class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Retour
+                </button>
+                <button class="confirm-btn">
+                    <span class="btn-text">Sélectionnez un mode de paiement</span>
+                    <i class="fas fa-check"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ajoutez ce code dans la section des modales de index.html, juste avant la fermeture de body -->
+<div class="modal" id="confirmation-modal">
+    <div class="modal-content">
+        <div class="confirmation-message">
+            <i class="fas fa-check-circle success-icon"></i>
+            <h2>Commande Confirmée !</h2>
+            <p>Merci pour votre commande. Votre facture est prête.</p>
+            <button class="download-invoice-btn">
+                <i class="fas fa-download"></i>
+                Télécharger la facture
+            </button>
+        </div>
+    </div>
+</div>
+
+    <!-- Pied de page -->
+    <footer>
+        <div class="footer-content">
+            <!-- Logo et nom du restaurant -->
+            <div class="footer-brand">
+                <h2>Assane Restau</h2>
+            </div>
+            <!-- Informations de contact -->
+            <div class="footer-info">
+                <p><i class="fas fa-map-marker-alt"></i>Tivaouane Peulh / Diawrine</p>
+                <p><i class="fas fa-phone"></i> +221784513633</p>
+                <p><i class="fas fa-envelope"></i> baalhassane520@gmail.com</p>
+            </div>
+            <!-- Liens réseaux sociaux -->
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Importation du script JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
